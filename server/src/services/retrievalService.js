@@ -2,13 +2,7 @@ import { getRepository } from '../data/repository.js';
 import { embedText } from './ollamaService.js';
 
 function tokenize(text) {
-  return new Set(expandQueryText(text).toLowerCase().match(/[a-z0-9]{2,}/g) || []);
-}
-
-function expandQueryText(text) {
-  return String(text || '')
-    .replace(/\bgen\s*ai\b/gi, 'generative ai artificial intelligence')
-    .replace(/\bgenai\b/gi, 'generative ai artificial intelligence');
+  return new Set(String(text || '').toLowerCase().match(/[a-z0-9]{2,}/g) || []);
 }
 
 function cosine(a, b) {
@@ -43,15 +37,14 @@ export async function retrieveChunks(userId, workspaceId, query, options = {}) {
     chunks = chunks.filter((chunk) => options.documentIds.includes(chunk.documentId));
   }
 
-  const expandedQuery = expandQueryText(query);
-  const queryEmbedding = await embedText(expandedQuery);
+  const queryEmbedding = await embedText(query);
   const documents = await repository.getAll('documents', { userId, workspaceId });
   const documentNames = new Map(documents.map((doc) => [doc.id, doc.originalName]));
 
   return chunks
     .map((chunk) => {
       const hasEmbedding = queryEmbedding.length && chunk.embedding?.length;
-      const score = hasEmbedding ? cosine(queryEmbedding, chunk.embedding) : keywordScore(expandedQuery, chunk.text);
+      const score = hasEmbedding ? cosine(queryEmbedding, chunk.embedding) : keywordScore(query, chunk.text);
       return {
         documentId: chunk.documentId,
         documentName: documentNames.get(chunk.documentId) || chunk.metadata?.documentName || 'Document',

@@ -43,10 +43,7 @@ function stripSourcePrefix(text) {
 }
 
 function normalizeQuestion(text) {
-  return String(text || '')
-    .toLowerCase()
-    .replace(/\bgen\s*ai\b/g, 'generative ai')
-    .replace(/\bgenai\b/g, 'generative ai');
+  return String(text || '').toLowerCase();
 }
 
 function isDefinitionQuestion(question) {
@@ -83,7 +80,6 @@ function scoreSentence(sentence, terms) {
     if (normalized.includes(term)) score += 2;
   }
   if (/\b(is|means|refers to|defined as|branch of|can create)\b/.test(normalized)) score += 2;
-  if (normalized.includes('generative ai')) score += 3;
   return score;
 }
 

@@ -51,10 +51,11 @@ export function cleanText(text) {
 }
 
 export function summarizeText(text) {
-  const sentences = String(text || '')
+  const safeText = String(text || '');
+  const sentences = safeText
     .split(/(?<=[.!?])\s+/)
     .map((sentence) => sentence.trim())
     .filter(Boolean);
 
-  return sentences.slice(0, 3).join(' ').slice(0, 700) || text.slice(0, 700);
+  return sentences.slice(0, 3).join(' ').slice(0, 700) || safeText.slice(0, 700);
 }
