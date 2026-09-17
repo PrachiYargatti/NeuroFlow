@@ -1,0 +1,21 @@
+# --- Local app (runs on your CPU laptop) -----------------------------------
+streamlit>=1.37.0
+openai-whisper>=20231117
+torch>=2.0.0
+sounddevice>=0.4.6
+scipy>=1.11.0
+numpy>=1.24.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+kaggle>=1.6.0            # only needed for auto-discovery / auto-launch of the Kaggle GPU endpoint
+
+# --- Kaggle GPU notebook (installed inside the Kaggle notebook, NOT here) --
+# f5-tts==1.1.10
+# fastapi
+# uvicorn
+# python-multipart
+# pyngrok
+# nest_asyncio
+# torch==2.4.0+cu121 / torchvision==0.19.0+cu121 / torchaudio==2.4.0+cu121
+# transformers==4.44.2
+# accelerate==0.34.2
